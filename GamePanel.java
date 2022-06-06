@@ -10,6 +10,8 @@ public class GamePanel extends JPanel implements Runnable {
     public Image image;
     public Graphics graphics;
     public Countries countries;
+    public int needsReset = 1;
+    public String currentCountry;
 
     public GamePanel() {
         this.setFocusable(true);
@@ -28,8 +30,12 @@ public class GamePanel extends JPanel implements Runnable {
     public void draw(Graphics g) {
         // DrawArrow.draw();
         // Countries.draw();
+        if (needsReset == 1) {
+            currentCountry = countries.getRandomCountry();
+            needsReset = 0;
+        }
         try {
-            BufferedImage image = ImageIO.read(new File("img/" + countries.getRandomCountry() + ".png"));
+            BufferedImage image = ImageIO.read(new File("img/" + currentCountry + ".png"));
             g.drawImage(image, 0, 0, null);
         } catch (Exception e) {
             System.out.println(e);

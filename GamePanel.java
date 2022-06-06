@@ -21,8 +21,8 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void draw(Graphics g) {
-        DrawArrow.draw();
-        Countries.draw();
+        // DrawArrow.draw();
+        // Countries.draw();
     }
 
     public void run(){

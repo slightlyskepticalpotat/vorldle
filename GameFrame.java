@@ -3,11 +3,11 @@ import javax.swing.*;
 
 public class GameFrame extends JFrame{
 
-  // GamePanel panel;
+  GamePanel panel;
 
   public GameFrame(){
-    // panel = new GamePanel(); // run GamePanel constructor
-    // this.add(panel);
+    panel = new GamePanel(); // run GamePanel constructor
+    this.add(panel);
     this.setTitle("Worldle"); // set title for frame
     this.setResizable(false); // frame can't change size
     this.setBackground(Color.black); // set background colour

@@ -15,4 +15,9 @@ public class Countries {
             System.out.println(e);
         }
     }
+
+    public String getRandomCountry() {
+        int i = (int) (Math.random() * allCountries.size());
+        return allCountries.get(i).get(0);
+    }
 }

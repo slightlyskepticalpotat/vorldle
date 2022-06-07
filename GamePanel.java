@@ -12,12 +12,14 @@ public class GamePanel extends JPanel implements Runnable {
     public Countries countries;
     public int needsReset = 1;
     public String currentCountry;
+    public Menu menu;
 
     public GamePanel() {
         this.setFocusable(true);
         gameThread = new Thread(this);
         gameThread.start();
         countries = new Countries("database.txt");
+        menu = new Menu(50, 50);
     }
 
     public void paint(Graphics g) {
@@ -40,6 +42,7 @@ public class GamePanel extends JPanel implements Runnable {
         } catch (Exception e) {
             System.out.println(e);
         }
+        menu.draw(g);
     }
 
     public void run(){

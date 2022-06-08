@@ -20,4 +20,32 @@ public class Countries {
         int i = (int) (Math.random() * allCountries.size());
         return allCountries.get(i).get(0);
     }
+
+    public double getLat(String code) {
+        for (List<String> country: allCountries) {
+            if (country.get(0).equals(code)) {
+                return Double.parseDouble(country.get(1));
+            }
+        }
+    return 0.0;
+    }
+
+    public double getLon(String code) {
+        for (List<String> country: allCountries) {
+            if (country.get(0).equals(code)) {
+                return Double.parseDouble(country.get(2));
+            }
+        }
+    return 0.0;
+    }
+
+    public String getName(String code) {
+        for (List<String> country: allCountries) {
+            if (country.get(0).equals(code)) {
+                return country.get(3);
+            }
+        }
+    return "No Country Found";
+    }
+
 }

@@ -19,7 +19,8 @@ public class GamePanel extends JPanel implements Runnable {
         gameThread = new Thread(this);
         gameThread.start();
         countries = new Countries("database.txt");
-        menu = new Menu(50, 50);
+        menu = new Menu(175, 50);
+        this.setPreferredSize(new Dimension(512, 512));
     }
 
     public void paint(Graphics g) {

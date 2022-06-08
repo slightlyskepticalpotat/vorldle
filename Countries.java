@@ -5,7 +5,7 @@ public class Countries {
     public List<List<String>> allCountries = new ArrayList<>();
 
     public Countries(String filename) {
-        try (BufferedReader br = new BufferedReader(new FileReader(filename))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(System.getProperty("user.dir") + "/" + filename))) {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");

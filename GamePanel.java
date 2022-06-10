@@ -15,6 +15,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public int needsReset = 1;
 	public String currentCountry;
 	public Menu menu;
+	public Proximity squares;
 
 	public GamePanel() {
 		this.setFocusable(true);
@@ -49,6 +50,7 @@ public class GamePanel extends JPanel implements Runnable {
 			System.out.println(e);
 		}
 		menu.draw(g);
+		squares.draw(g);
 	}
 
 	public void run() {

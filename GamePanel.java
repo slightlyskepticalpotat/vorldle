@@ -23,7 +23,7 @@ public class GamePanel extends JPanel implements Runnable {
 		gameThread.start();
 		countries = new Countries("src/database.txt");
 		menu = new Menu(190, 50);
-		MenuButton();
+		// MenuButton();
 		this.setPreferredSize(new Dimension(512, 768));
 
 	}
@@ -50,7 +50,25 @@ public class GamePanel extends JPanel implements Runnable {
 			System.out.println(e);
 		}
 		menu.draw(g);
-		squares.draw(g);
+		// squares.draw(g);
+		// need to calculate green, yellow, and white here
+		/*
+		for (int i = 0; i < 512; i += 32) { // draw central line of squares
+			if (green != 0) {
+				green -= 1;
+				g.setColor(Color.green);
+			} else if (yellow != 0) {
+				yellow -= 1;
+				g.setColor(Color.yellow);
+			} else if (white != 0) {
+				white -= 1;
+				g.setColor(Color.white);
+			} else {
+				return;
+			}
+			g.fillRect(256, i, 8, 8);
+		}
+		 */
 	}
 
 	public void run() {

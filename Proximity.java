@@ -2,7 +2,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class Proximity extends JPanel {
+public class Proximity {
 
 	public static final double MAX_DISTANCE_ON_EARTH = 20000000; // in meters
 	public static int green;
@@ -26,24 +26,6 @@ public class Proximity extends JPanel {
 		}
 
 		white = 5 - yellow - green;
-	}
-
-	public void draw(Graphics g) {
-		for (int i = 0; i < 512; i += 32) { // draw central line of squares
-			if (green != 0) {
-				green -= 1;
-				g.setColor(Color.green);
-			} else if (yellow != 0) {
-				yellow -= 1;
-				g.setColor(Color.yellow);
-			} else if (white != 0) {
-				white -= 1;
-				g.setColor(Color.white);
-			} else {
-				return;
-			}
-			g.fillRect(256, i, 8, 8);
-		}
 	}
 }
 

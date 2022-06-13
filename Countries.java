@@ -48,4 +48,12 @@ public class Countries {
     return "No Country Found";
     }
 
+    public String getCode(String name) {
+        for (List<String> country: allCountries) {
+            if (country.get(3).equals(name)) {
+                return country.get(0);
+            }
+        }
+    return "No Country Found";
+    }
 }

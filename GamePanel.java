@@ -7,6 +7,8 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
+import java.util.Scanner;
+
 public class GamePanel extends JPanel implements Runnable {
 	public Thread gameThread;
 	public Image image;
@@ -16,6 +18,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public String currentCountry;
 	public Menu menu;
 	public Proximity squares;
+	public String guess;
 
 	public GamePanel() {
 		this.setFocusable(true);
@@ -39,6 +42,19 @@ public class GamePanel extends JPanel implements Runnable {
 	public void draw(Graphics g) {
 		// DrawArrow.draw();
 		// Countries.draw();
+		if (needsReset == 0) {
+			Scanner scan = new Scanner(System.in);
+			System.out.print("Guess: ");
+			guess = scan.nextLine();
+			scan.close();
+
+			// we check win conditions here
+			if (guess == countries.getName(currentCountry)) {
+				System.out.println("You Win!");
+			} else {
+				// insert code here to get distance
+			}
+		}
 		if (needsReset == 1) {
 			currentCountry = countries.getRandomCountry();
 			needsReset = 0;
@@ -50,6 +66,7 @@ public class GamePanel extends JPanel implements Runnable {
 			System.out.println(e);
 		}
 		menu.draw(g);
+
 		// squares.draw(g);
 		// need to calculate green, yellow, and white here
 		/*

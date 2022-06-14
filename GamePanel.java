@@ -21,6 +21,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public String guess;
 	public Scanner scan = new Scanner(System.in);
 	public int score = 0;
+	public int guessesLeft = 6;
 
 	public GamePanel() {
 		this.setFocusable(true);
@@ -44,9 +45,10 @@ public class GamePanel extends JPanel implements Runnable {
 	public void draw(Graphics g) {
 		// DrawArrow.draw();
 		// Countries.draw();
-		if (needsReset == 0) {
+		if (needsReset == 0 && guessesLeft > 0) {
 			System.out.print("Guess: ");
 			guess = scan.nextLine();
+			guessesLeft -= 1;
 			// we check win conditions here
 			if (guess.equals(countries.getName(currentCountry))) {
 				score += 1;
@@ -54,6 +56,7 @@ public class GamePanel extends JPanel implements Runnable {
 				needsReset = 1;
 			} else {
 				System.out.println("Wrong guess!");
+				System.out.println("You have " + guessesLeft + " guesses left.");
 				guess = countries.getCode(guess);
 				if (guess.equals("No Country Found")) {
 					System.out.println("Invalid country. Try again!");
@@ -64,10 +67,11 @@ public class GamePanel extends JPanel implements Runnable {
 				// insert code here to get distance
 			}
 		}
-		if (needsReset == 1) {
+		if (needsReset == 1 || guessesLeft == 0) {
 			currentCountry = countries.getRandomCountry();
 			System.out.println("DEBUG " + countries.getName(currentCountry));
 			needsReset = 0;
+			guessesLeft = 6;
 		}
 		try {
 			BufferedImage image = ImageIO.read(getClass().getResource("/img/" + currentCountry + ".png"));

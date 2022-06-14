@@ -1,7 +1,3 @@
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
-
 public class Proximity {
 
 	public static final double MAX_DISTANCE_ON_EARTH = 20000000; // in meters

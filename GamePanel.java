@@ -58,8 +58,16 @@ public class GamePanel extends JPanel implements Runnable {
 				if (guess.equals("No Country Found")) {
 					System.out.println("Invalid country. Try again!");
 				} else {
-					System.out.println("Your guess is " + findDistance(countries.getLat(guess), countries.getLon(guess), countries.getLat(currentCountry), countries.getLon(currentCountry), 0, 0) + " km off.");
-					System.out.println("Your guess is on a bearing of " + getBearing(countries.getLat(guess), countries.getLon(guess), countries.getLat(currentCountry), countries.getLon(currentCountry)) + ".");
+					System.out.println("Your guess is "
+							+ findDistance(countries.getLat(guess), countries.getLon(guess),
+									countries.getLat(currentCountry), countries.getLon(currentCountry), 0, 0)
+							+ " km off.");
+					System.out
+							.println(
+									"Your guess is on a bearing of "
+											+ getBearing(countries.getLat(guess), countries.getLon(guess),
+													countries.getLat(currentCountry), countries.getLon(currentCountry))
+											+ ".");
 				}
 				// insert code here to get distance
 			}
@@ -81,21 +89,21 @@ public class GamePanel extends JPanel implements Runnable {
 		// squares.draw(g);
 		// need to calculate green, yellow, and white here
 		/*
-		for (int i = 0; i < 512; i += 32) { // draw central line of squares
-			if (green != 0) {
-				green -= 1;
-				g.setColor(Color.green);
-			} else if (yellow != 0) {
-				yellow -= 1;
-				g.setColor(Color.yellow);
-			} else if (white != 0) {
-				white -= 1;
-				g.setColor(Color.white);
-			} else {
-				return;
-			}
-			g.fillRect(256, i, 8, 8);
-		}
+		 * for (int i = 0; i < 512; i += 32) { // draw central line of squares
+		 * if (green != 0) {
+		 * green -= 1;
+		 * g.setColor(Color.green);
+		 * } else if (yellow != 0) {
+		 * yellow -= 1;
+		 * g.setColor(Color.yellow);
+		 * } else if (white != 0) {
+		 * white -= 1;
+		 * g.setColor(Color.white);
+		 * } else {
+		 * return;
+		 * }
+		 * g.fillRect(256, i, 8, 8);
+		 * }
 		 */
 	}
 
@@ -139,19 +147,18 @@ public class GamePanel extends JPanel implements Runnable {
 		return Math.sqrt(distance);
 	}
 
-	public static double getBearing(double lat1, double lon1, double lat2, double lon2){
+	public static double getBearing(double lat1, double lon1, double lat2, double lon2) {
 
-		double x,y,bearingrad,bearingdeg;
+		double x, y, bearingrad, bearingdeg;
 
 		lat1 = Math.toRadians(lat1);
 		lon1 = Math.toRadians(lon1);
 		lat2 = Math.toRadians(lat2);
 		lon2 = Math.toRadians(lon2);
 
+		x = Math.cos(lat2) * Math.sin(lon2 - lon1);
 
-		x = Math.cos(lat2)*Math.sin(lon2-lon1);
-
-		y = Math.cos(lat1)*Math.sin(lat2)-Math.sin(lat1)*Math.cos(lat2)*Math.cos(lon2-lon1);
+		y = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1);
 
 		bearingrad = Math.atan2(x, y);
 		bearingdeg = Math.toDegrees(bearingrad);

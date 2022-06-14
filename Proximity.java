@@ -24,4 +24,3 @@ public class Proximity {
 		white = 5 - yellow - green;
 	}
 }
-

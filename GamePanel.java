@@ -59,6 +59,7 @@ public class GamePanel extends JPanel implements Runnable {
 					System.out.println("Invalid country. Try again!");
 				} else {
 					System.out.println("Your guess is " + findDistance(countries.getLat(guess), countries.getLon(guess), countries.getLat(currentCountry), countries.getLon(currentCountry), 0, 0) + " km off.");
+					System.out.println("Your guess is on a bearing of " + getBearing(countries.getLat(guess), countries.getLon(guess), countries.getLat(currentCountry), countries.getLon(currentCountry)) + ".");
 				}
 				// insert code here to get distance
 			}
@@ -135,5 +136,25 @@ public class GamePanel extends JPanel implements Runnable {
 		distance = Math.pow(distance, 2) + Math.pow(height, 2);
 
 		return Math.sqrt(distance);
+	}
+
+	public static double getBearing(double lat1, double lon1, double lat2, double lon2){
+
+		double x,y,bearingrad,bearingdeg;
+
+		lat1 = Math.toRadians(lat1);
+		lon1 = Math.toRadians(lon1);
+		lat2 = Math.toRadians(lat2);
+		lon2 = Math.toRadians(lon2);
+
+
+		x = Math.cos(lat2)*Math.sin(lon2-lon1);
+
+		y = Math.cos(lat1)*Math.sin(lat2)-Math.sin(lat1)*Math.cos(lat2)*Math.cos(lon2-lon1);
+
+		bearingrad = Math.atan2(x, y);
+		bearingdeg = Math.toDegrees(bearingrad);
+
+		return bearingdeg;
 	}
 }

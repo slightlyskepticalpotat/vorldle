@@ -19,6 +19,8 @@ public class GamePanel extends JPanel implements Runnable {
 	public Menu menu;
 	public Proximity squares;
 	public String guess;
+	public Scanner scan = new Scanner(System.in);
+	public int score = 0;
 
 	public GamePanel() {
 		this.setFocusable(true);
@@ -43,20 +45,27 @@ public class GamePanel extends JPanel implements Runnable {
 		// DrawArrow.draw();
 		// Countries.draw();
 		if (needsReset == 0) {
-			Scanner scan = new Scanner(System.in);
 			System.out.print("Guess: ");
 			guess = scan.nextLine();
-			scan.close();
-
 			// we check win conditions here
-			if (guess == countries.getName(currentCountry)) {
-				System.out.println("You Win!");
+			if (guess.equals(countries.getName(currentCountry))) {
+				score += 1;
+				System.out.println("You win! You've guessed " + score + " countries so far.");
+				needsReset = 1;
 			} else {
+				System.out.println("Wrong guess!");
+				guess = countries.getCode(guess);
+				if (guess.equals("No Country Found")) {
+					System.out.println("Invalid country. Try again!");
+				} else {
+					System.out.println("Your guess is " + findDistance(countries.getLat(guess), countries.getLon(guess), countries.getLat(currentCountry), countries.getLon(currentCountry), 0, 0) + " km off.");
+				}
 				// insert code here to get distance
 			}
 		}
 		if (needsReset == 1) {
 			currentCountry = countries.getRandomCountry();
+			System.out.println("DEBUG " + countries.getName(currentCountry));
 			needsReset = 0;
 		}
 		try {
@@ -109,5 +118,22 @@ public class GamePanel extends JPanel implements Runnable {
 				delta--;
 			}
 		}
+	}
+
+	public static double findDistance(double lat1, double lon1, double lat2, double lon2, double el1, double el2) {
+		final int R = 6371; // Radius of the earth
+
+		double latDistance = Math.toRadians(lat2 - lat1);
+		double lonDistance = Math.toRadians(lon2 - lon1);
+		double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2) + Math.cos(Math.toRadians(lat1))
+				* Math.cos(Math.toRadians(lat2)) * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+		double distance = R * c;
+
+		double height = el1 - el2;
+
+		distance = Math.pow(distance, 2) + Math.pow(height, 2);
+
+		return Math.sqrt(distance);
 	}
 }

@@ -28,7 +28,6 @@ public class GamePanel extends JPanel implements Runnable {
 		menu = new Menu(190, 50);
 		// MenuButton();
 		this.setPreferredSize(new Dimension(512, 768));
-
 	}
 
 	public void paint(Graphics g) {
@@ -64,10 +63,10 @@ public class GamePanel extends JPanel implements Runnable {
 							+ " km off.");
 					System.out
 							.println(
-									"Your guess is on a bearing of "
+									"The country is in the "
 											+ getBearing(countries.getLat(guess), countries.getLon(guess),
 													countries.getLat(currentCountry), countries.getLon(currentCountry))
-											+ ".");
+											+ " direction.");
 				}
 				// insert code here to get distance
 			}
@@ -163,6 +162,9 @@ public class GamePanel extends JPanel implements Runnable {
 		bearingrad = Math.atan2(x, y);
 		bearingdeg = Math.toDegrees(bearingrad);
 
+		if (bearingdeg < 0) {
+			bearingdeg += 3600;
+		}
 		return bearingdeg;
 	}
 }

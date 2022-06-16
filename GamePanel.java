@@ -19,7 +19,10 @@ public class GamePanel extends JPanel implements Runnable {
 	public Scanner scan = new Scanner(System.in);
 	public int score = 0;
 	public int guessesLeft = 6;
-
+	public Proximity squareCalculator;
+	public double percent;
+	public int squareLocation = 0;
+	
 	public GamePanel() {
 		this.setFocusable(true);
 		gameThread = new Thread(this);
@@ -67,6 +70,27 @@ public class GamePanel extends JPanel implements Runnable {
 											+ getBearing(countries.getLat(guess), countries.getLon(guess),
 													countries.getLat(currentCountry), countries.getLon(currentCountry))
 											+ " direction.");
+					percent = squareCalculator.PercentProximity(findDistance(countries.getLat(guess), countries.getLon(guess), countries.getLat(currentCountry), countries.getLon(currentCountry), 0, 0));
+					squareCalculator.SquareProgress(percent);
+					
+					System.out.println(squareCalculator.greenSquares + " " + squareCalculator.yellowSquares + " " + squareCalculator.whiteSquares);
+					squareLocation = 0;
+					for (int i = 0; i < squareCalculator.greenSquares; i+= 1) {
+						g.setColor(Color.green);
+						g.fillRect(squareLocation, (7 - guessesLeft) * 50, 50, 50);
+						squareLocation += 100;
+					}
+					for (int i = 0; i < squareCalculator.yellowSquares; i+= 1) {
+						g.setColor(Color.yellow);
+						g.fillRect(squareLocation, (7 - guessesLeft) * 50, 50, 50);
+						squareLocation += 100;
+					}
+					for (int i = 0; i < squareCalculator.whiteSquares; i+= 1) {
+						g.setColor(Color.gray);
+						g.fillRect(squareLocation, (7 - guessesLeft) * 50, 50, 50);
+						squareLocation += 100;
+					}
+					
 				}
 				// insert code here to get distance
 			}
@@ -76,6 +100,7 @@ public class GamePanel extends JPanel implements Runnable {
 			System.out.println("DEBUG " + countries.getName(currentCountry));
 			needsReset = 0;
 			guessesLeft = 6;
+			// need to clear screen here by drawing white rectangle over squares
 		}
 		try {
 			BufferedImage image = ImageIO.read(getClass().getResource("/img/" + currentCountry + ".png"));
@@ -84,26 +109,6 @@ public class GamePanel extends JPanel implements Runnable {
 			System.out.println(e);
 		}
 		menu.draw(g);
-
-		// squares.draw(g);
-		// need to calculate green, yellow, and white here
-		/*
-		 * for (int i = 0; i < 512; i += 32) { // draw central line of squares
-		 * if (green != 0) {
-		 * green -= 1;
-		 * g.setColor(Color.green);
-		 * } else if (yellow != 0) {
-		 * yellow -= 1;
-		 * g.setColor(Color.yellow);
-		 * } else if (white != 0) {
-		 * white -= 1;
-		 * g.setColor(Color.white);
-		 * } else {
-		 * return;
-		 * }
-		 * g.fillRect(256, i, 8, 8);
-		 * }
-		 */
 	}
 
 	public void run() {
@@ -163,7 +168,7 @@ public class GamePanel extends JPanel implements Runnable {
 		bearingdeg = Math.toDegrees(bearingrad);
 
 		if (bearingdeg < 0) {
-			bearingdeg += 3600;
+			bearingdeg += 360;
 		}
 		return bearingdeg;
 	}

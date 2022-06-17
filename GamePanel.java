@@ -28,14 +28,14 @@ public class GamePanel extends JPanel implements Runnable {
 		gameThread = new Thread(this);
 		gameThread.start();
 		countries = new Countries("src/database.txt");
-		menu = new Menu(190, 50);
+		menu = new Menu(180, 50);
 		// MenuButton();
-		this.setPreferredSize(new Dimension(512, 768));
+		this.setPreferredSize(new Dimension(512, 900));
 	}
 
 	public void paint(Graphics g) {
 
-		image = createImage(512, 512);
+		image = createImage(512, 900);
 		graphics = image.getGraphics();
 		draw(graphics);
 		g.drawImage(image, 0, 0, this);
@@ -51,19 +51,17 @@ public class GamePanel extends JPanel implements Runnable {
 			// we check win conditions here
 			if (guess.equals(countries.getName(currentCountry))) {
 				score += 1;
-				System.out.println("You win! You've guessed " + score + " countries so far.");
 				needsReset = 1;
 			} else {
-				System.out.println("Wrong guess!");
-				System.out.println("You have " + guessesLeft + " guesses left.");
 				guess = countries.getCode(guess);
 				if (guess.equals("No Country Found")) {
-					System.out.println("Invalid country. Try again!");
+					g.setColor(Color.gray);	
+					g.setFont(new Font("Segoe UI", Font.PLAIN, 20));
+					FontMetrics metrics = g.getFontMetrics();
+					g.drawString("Invalid Country", (512 - metrics.stringWidth("Invalid Country")) / 2, 550);
+					g.drawString(guessesLeft + " Guesses Left", (512 - metrics.stringWidth(guessesLeft + " Guesses Left")) / 2, 600);
 				} else {
-					System.out.println("Your guess is "
-							+ findDistance(countries.getLat(guess), countries.getLon(guess),
-									countries.getLat(currentCountry), countries.getLon(currentCountry), 0, 0)
-							+ " km off.");
+					int distance = findDistance(countries.getLat(guess), countries.getLon(guess), countries.getLat(currentCountry), countries.getLon(currentCountry), 0, 0);
 					System.out
 							.println(
 									"The country is in the "
@@ -73,38 +71,48 @@ public class GamePanel extends JPanel implements Runnable {
 					percent = squareCalculator.PercentProximity(findDistance(countries.getLat(guess), countries.getLon(guess), countries.getLat(currentCountry), countries.getLon(currentCountry), 0, 0));
 					squareCalculator.SquareProgress(percent);
 					
-					System.out.println(squareCalculator.greenSquares + " " + squareCalculator.yellowSquares + " " + squareCalculator.whiteSquares);
-					squareLocation = 0;
+					squareLocation = 31;
 					for (int i = 0; i < squareCalculator.greenSquares; i+= 1) {
 						g.setColor(Color.green);
-						g.fillRect(squareLocation, (7 - guessesLeft) * 50, 50, 50);
+						g.fillRect(squareLocation, 450, 50, 50);
 						squareLocation += 100;
 					}
 					for (int i = 0; i < squareCalculator.yellowSquares; i+= 1) {
 						g.setColor(Color.yellow);
-						g.fillRect(squareLocation, (7 - guessesLeft) * 50, 50, 50);
+						g.fillRect(squareLocation, 450, 50, 50);
 						squareLocation += 100;
 					}
 					for (int i = 0; i < squareCalculator.whiteSquares; i+= 1) {
 						g.setColor(Color.gray);
-						g.fillRect(squareLocation, (7 - guessesLeft) * 50, 50, 50);
+						g.fillRect(squareLocation, 450, 50, 50);
 						squareLocation += 100;
 					}
-					
+
+					g.setColor(Color.gray);	
+					g.setFont(new Font("Segoe UI", Font.PLAIN, 32));
+					FontMetrics metrics = g.getFontMetrics();
+					g.drawString("Guess: " + countries.getName(guess), (512 - metrics.stringWidth("Guess: " + countries.getName(guess))) / 2, 550);	
+					String message = distance + " km (" + (int) percent + "%)";
+					g.drawString(message, (512 - metrics.stringWidth(message)) / 2, 600);
+					g.drawString(guessesLeft + " Guesses Left", (512 - metrics.stringWidth(guessesLeft + " Guesses Left")) / 2, 650);
+					g.drawString("Score: " + score, (512 - metrics.stringWidth("Score: " + score)) / 2, 700);
 				}
-				// insert code here to get distance
 			}
 		}
 		if (needsReset == 1 || guessesLeft == 0) {
 			currentCountry = countries.getRandomCountry();
-			System.out.println("DEBUG " + countries.getName(currentCountry));
+			System.out.println("DEBUG ANSWER " + countries.getName(currentCountry));
 			needsReset = 0;
 			guessesLeft = 6;
-			// need to clear screen here by drawing white rectangle over squares
 		}
+		g.setColor(Color.black);
+		g.setFont(new Font("Segoe UI", Font.PLAIN, 32));
+		FontMetrics metrics = g.getFontMetrics();
+		g.drawString(countries.getName(currentCountry).replaceAll("[a-zA-Z-]", "_ ").trim(), (512 - metrics.stringWidth(countries.getName(currentCountry).replaceAll("[a-zA-Z-]", "_ ").trim())) / 2, 128);
+
 		try {
 			BufferedImage image = ImageIO.read(getClass().getResource("/img/" + currentCountry + ".png"));
-			g.drawImage(image, 128, 128, null);
+			g.drawImage(image, 128, 180, null);
 		} catch (Exception e) {
 			System.out.println(e);
 		}
@@ -134,7 +142,7 @@ public class GamePanel extends JPanel implements Runnable {
 		}
 	}
 
-	public static double findDistance(double lat1, double lon1, double lat2, double lon2, double el1, double el2) {
+	public static int findDistance(double lat1, double lon1, double lat2, double lon2, double el1, double el2) {
 		final int R = 6371; // Radius of the earth
 
 		double latDistance = Math.toRadians(lat2 - lat1);
@@ -148,7 +156,7 @@ public class GamePanel extends JPanel implements Runnable {
 
 		distance = Math.pow(distance, 2) + Math.pow(height, 2);
 
-		return Math.sqrt(distance);
+		return (int) Math.round(Math.sqrt(distance));
 	}
 
 	public static double getBearing(double lat1, double lon1, double lat2, double lon2) {

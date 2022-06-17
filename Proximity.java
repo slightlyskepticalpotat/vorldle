@@ -8,7 +8,6 @@ public class Proximity {
 	public static double PercentProximity(double distance) {
 
 		double percentproximity = Math.round((MAX_DISTANCE_ON_EARTH - distance) / MAX_DISTANCE_ON_EARTH * 100);
-		System.out.println(percentproximity);
 		return (percentproximity);
 	}
 
@@ -16,7 +15,7 @@ public class Proximity {
 		greenSquares = 0;
 		yellowSquares = 0;
 		whiteSquares = 0;
-		greenSquares = (int) percent % 20;
+		greenSquares = (int) percent / 20;
 
 		if (percent % 20 > 10) {
 			yellowSquares = 1;

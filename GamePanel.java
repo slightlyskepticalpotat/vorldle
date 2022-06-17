@@ -22,7 +22,7 @@ public class GamePanel extends JPanel implements Runnable {
 	public Proximity squareCalculator;
 	public double percent;
 	public int squareLocation = 0;
-	
+
 	public GamePanel() {
 		this.setFocusable(true);
 		gameThread = new Thread(this);

@@ -9,6 +9,6 @@
 
 class Main {
 	public static void main(String[] args) {
-		new GameFrame();
+		new GameFrame(); // runs the constructor for the GameFrame, which creates the GamePanel
 	}
 }

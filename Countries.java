@@ -1,3 +1,13 @@
+/*
+* This Countries class loads a country database, and provides utility methods
+* to get a random country, the latitude of a specific country, the longitude
+* of a specific country, and convert between a country name and short code.
+*
+* @author  Anthony Chen, Tony Zhang
+* @version 1.0
+* @since   2022-06-19
+*/
+
 import java.util.*;
 import java.io.*;
 

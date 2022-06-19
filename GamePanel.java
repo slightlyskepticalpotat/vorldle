@@ -1,19 +1,21 @@
+/*
+* This GamePanel class is the main part of the game. It stores game data,
+* displays game graphics, and handles the central logic of the game while 
+* also using other classes to read in, process, and display various data.
+*
+* @author  Anthony Chen, Tony Zhang
+* @version 1.0
+* @since   2022-06-19
+*/
+
 import java.awt.*;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
-import javax.swing.JFrame;
-
-import javax.swing.*;
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
+import java.awt.geom.*;
+import java.awt.image.*;
 import java.awt.event.*;
+import javax.swing.*;
 
+import java.io.*;
+import javax.imageio.ImageIO;
 import java.util.Scanner;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener {
@@ -42,12 +44,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		gameThread.start();
 		countries = new Countries("src/database.txt");
 		menu = new Menu(180, 50);
-		// MenuButton();
 		this.setPreferredSize(new Dimension(512, 900));
 	}
 
 	public void paint(Graphics g) {
-
 		image = createImage(512, 900);
 		graphics = image.getGraphics();
 		draw(graphics);
@@ -55,8 +55,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	}
 
 	public void draw(Graphics g) {
-		// DrawArrow.draw();
-		// Countries.draw();
 		if (needsReset == 0 && guessesLeft > 0) {
 			if (readyCheck == 1) {
 				guess = textBox;
@@ -88,7 +86,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 					g.drawString(guessesLeft + " Guesses Left", (512 - metrics.stringWidth(guessesLeft + " Guesses Left")) / 2, 600);
 				} else {
 					int distance = findDistance(countries.getLat(guess), countries.getLon(guess), countries.getLat(currentCountry), countries.getLon(currentCountry), 0, 0);
-					// System.out.println("The country is in the "+ getBearing(countries.getLat(guess), countries.getLon(guess),countries.getLat(currentCountry), countries.getLon(currentCountry))+ " direction.");
 					percent = squareCalculator.PercentProximity(findDistance(countries.getLat(guess), countries.getLon(guess), countries.getLat(currentCountry), countries.getLon(currentCountry), 0, 0));
 					squareCalculator.SquareProgress(percent);
 					
@@ -169,20 +166,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
 		double latDistance = Math.toRadians(lat2 - lat1);
 		double lonDistance = Math.toRadians(lon2 - lon1);
-		double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2) + Math.cos(Math.toRadians(lat1))
-				* Math.cos(Math.toRadians(lat2)) * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+
+		double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2) + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
 		double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 		double distance = R * c;
-
 		double height = el1 - el2;
 
 		distance = Math.pow(distance, 2) + Math.pow(height, 2);
-
 		return (int) Math.round(Math.sqrt(distance));
 	}
 
 	public static double getBearing(double lat1, double lon1, double lat2, double lon2) {
-
 		double x, y, bearingrad, bearingdeg;
 
 		lat1 = Math.toRadians(lat1);
@@ -191,9 +185,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		lon2 = Math.toRadians(lon2);
 
 		x = Math.cos(lat2) * Math.sin(lon2 - lon1);
-
 		y = Math.cos(lat1) * Math.sin(lat2) - Math.sin(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1);
-
 		bearingrad = Math.atan2(x, y);
 		bearingdeg = Math.toDegrees(bearingrad);
 
@@ -205,31 +197,25 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	
 	public void paintComponent(Graphics g, double degree, double scaling) {
 		BufferedImage Arrow = LoadImage("src/Arrow.png"); // Idk import an image lol
-
 		AffineTransform at = AffineTransform.getTranslateInstance(200, 700); // change the position if needed
 		at.rotate(Math.toRadians(degree), Arrow.getWidth() / 2, Arrow.getHeight() / 2);
 		at.scale(scaling, scaling);
 
 		Graphics2D g2d = (Graphics2D) g;
-
 		g2d.drawImage(Arrow, at, null);
 		repaint();
 	}
 
 	BufferedImage LoadImage(String FileName) {
 		BufferedImage img = null;
-
 		try {
 			img = ImageIO.read(new File(FileName));
 		} catch (IOException e) {
 
 		}
-
 		return img;
 	}
 	
-	//Draws the arrow for which the country is to the direction of
-
 	public void keyPressed(KeyEvent e){
 		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 			readyCheck = 1;

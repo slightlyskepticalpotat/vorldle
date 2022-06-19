@@ -209,7 +209,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	public void paintComponent(Graphics g, double degree, double scaling) {
 		BufferedImage Arrow = LoadImage("src/Arrow.png"); // Idk import an image lol
 
-		AffineTransform at = AffineTransform.getTranslateInstance(200, 600); // change the position if needed
+		AffineTransform at = AffineTransform.getTranslateInstance(200, 700); // change the position if needed
 		at.rotate(Math.toRadians(degree), Arrow.getWidth() / 2, Arrow.getHeight() / 2);
 		at.scale(scaling, scaling);
 

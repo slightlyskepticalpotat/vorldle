@@ -34,7 +34,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 	public int squareLocation = 0;
 	public String textBox = "";
 	public int readyCheck = 0;
-	public Bearing direction;
 
 	public GamePanel() {
 		this.setFocusable(true);
@@ -117,6 +116,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 					String message = distance + " km (" + (int) percent + "%)";
 					g.drawString(message, (512 - metrics.stringWidth(message)) / 2, 600);
 					g.drawString(guessesLeft + " Guesses Left", (512 - metrics.stringWidth(guessesLeft + " Guesses Left")) / 2, 650);
+					paintComponent(g, getBearing(countries.getLat(guess),countries.getLon(guess),countries.getLat(currentCountry), countries.getLon(currentCountry)), 1);
 				}
 			}
 			g.drawString("Score: " + score, (512 - metrics.stringWidth("Score: " + score)) / 2, 850);
@@ -138,9 +138,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 		} catch (Exception e) {
 			System.out.println(e);
 		}
-		
-		paintComponent(g, getBearing(countries.getLat(guess),countries.getLon(guess),countries.getLat(currentCountry), countries.getLon(currentCountry)), 1);
-		
 		menu.draw(g);
 	}
 

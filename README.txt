@@ -12,4 +12,6 @@ Enter your guesses beside the flashing beside the ">". Good luck!
 
 *Note 2: If you're stuck, you can look in the console to see the answer printed there. Try not to cheat too much!
 
+*Note 3: The program only accepts countries with their correct capitalisations.
+
 Pressing Delete quits the program.

@@ -17,12 +17,13 @@ public class GameFrame extends JFrame {
     public GameFrame() {
         panel = new GamePanel(); // creates a new GamePanel
         this.add(panel); // add GamePanel to our GameFrame
-        this.setTitle("Worldle"); // set title for frame
+        this.setTitle("Vorldle - Guess The Country"); // set title for frame
         this.setResizable(false); // frame can't change size
         this.setBackground(Color.white); // set background colour
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // X button will stop program
         this.pack(); // makes components fit in window
         this.setVisible(true); // makes window visible to user
         this.setLocationRelativeTo(null); // set window in middle of screen
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage("src/icon.png")); // set program icon
     }
 }

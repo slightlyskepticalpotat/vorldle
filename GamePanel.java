@@ -41,12 +41,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener { // make
 		gameThread = new Thread(this);
 		gameThread.start();
 		countries = new Countries("src/database.txt"); // loade the countries
-		menu = new Menu(180, 50); // create the menu
-		this.setPreferredSize(new Dimension(512, 900)); // create window of specific size
+		menu = new Menu(180, 25); // create the menu
+		this.setPreferredSize(new Dimension(512, 700)); // create window of specific size
 	}
 
 	public void paint(Graphics g) {
-		image = createImage(512, 900); // create a blank canvas
+		image = createImage(512, 700); // create a blank canvas
 		graphics = image.getGraphics();
 		draw(graphics); // add game elements to the image
 		g.drawImage(image, 0, 0, this);
@@ -66,9 +66,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener { // make
 			g.setFont(new Font("Segoe UI", Font.PLAIN, 20));
 			FontMetrics metrics = g.getFontMetrics();
 			if ((System.currentTimeMillis() / 1000) % 2 == 1) { // this shows and hides the >, creating a blink effect
-				g.drawString("  " + textBox, (512 - metrics.stringWidth("  " + textBox)) / 2, 700);
+				g.drawString("  " + textBox, (512 - metrics.stringWidth("  " + textBox)) / 2, 600);
 			} else {
-				g.drawString("> " + textBox, (512 - metrics.stringWidth("> " + textBox)) / 2, 700);
+				g.drawString("> " + textBox, (512 - metrics.stringWidth("> " + textBox)) / 2, 600);
 			}
 
 			if (countries.getName(guess).equals(countries.getName(currentCountry))) { // the player won, so we increment the score and mark the game as needing a reset
@@ -79,8 +79,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener { // make
 					g.setColor(Color.gray);	
 					g.setFont(new Font("Segoe UI", Font.PLAIN, 20));
 					metrics = g.getFontMetrics();
-					g.drawString("Invalid Country", (512 - metrics.stringWidth("Invalid Country")) / 2, 550);
-					g.drawString(guessesLeft + " Guesses Left", (512 - metrics.stringWidth(guessesLeft + " Guesses Left")) / 2, 600);
+					g.drawString("Invalid Country", (512 - metrics.stringWidth("Invalid Country")) / 2, 450);
+					g.drawString(guessesLeft + " Guesses Left", (512 - metrics.stringWidth(guessesLeft + " Guesses Left")) / 2, 500);
 				} else { // but if the guess is a real country (but incorrect) we show how far off it was
 					int distance = findDistance(countries.getLat(guess), countries.getLon(guess), countries.getLat(currentCountry), countries.getLon(currentCountry), 0, 0); // distance to the country
 					percent = squareCalculator.PercentProximity(findDistance(countries.getLat(guess), countries.getLon(guess), countries.getLat(currentCountry), countries.getLon(currentCountry), 0, 0)); // percent of the way there
@@ -89,31 +89,31 @@ public class GamePanel extends JPanel implements Runnable, KeyListener { // make
 					squareLocation = 31;
 					for (int i = 0; i < squareCalculator.greenSquares; i+= 1) { // draw green, yellow, and white (grey) squares in that order
 						g.setColor(Color.green);
-						g.fillRect(squareLocation, 450, 50, 50);
+						g.fillRect(squareLocation, 375, 50, 50);
 						squareLocation += 100;
 					}
 					for (int i = 0; i < squareCalculator.yellowSquares; i+= 1) {
 						g.setColor(Color.yellow);
-						g.fillRect(squareLocation, 450, 50, 50);
+						g.fillRect(squareLocation, 375, 50, 50);
 						squareLocation += 100;
 					}
 					for (int i = 0; i < squareCalculator.whiteSquares; i+= 1) {
 						g.setColor(Color.gray);
-						g.fillRect(squareLocation, 450, 50, 50);
+						g.fillRect(squareLocation, 375, 50, 50);
 						squareLocation += 100;
 						}
 
 					g.setColor(Color.gray);	 // show the information and the number of guesses left on the screen
 					g.setFont(new Font("Segoe UI", Font.PLAIN, 20));
 					metrics = g.getFontMetrics();
-					g.drawString("Guess: " + countries.getName(guess), (512 - metrics.stringWidth("Guess: " + countries.getName(guess))) / 2, 550);	
+					g.drawString("Guess: " + countries.getName(guess), (512 - metrics.stringWidth("Guess: " + countries.getName(guess))) / 2, 450);	
 					String message = distance + " km (" + (int) percent + "%)";
-					g.drawString(message, (512 - metrics.stringWidth(message)) / 2, 600);
-					g.drawString(guessesLeft + " Guesses Left", (512 - metrics.stringWidth(guessesLeft + " Guesses Left")) / 2, 650);
+					g.drawString(message, (512 - metrics.stringWidth(message)) / 2, 500);
+					g.drawString(guessesLeft + " Guesses Left", (512 - metrics.stringWidth(guessesLeft + " Guesses Left")) / 2, 550);
 					paintComponent(g, getBearing(countries.getLat(guess),countries.getLon(guess),countries.getLat(currentCountry), countries.getLon(currentCountry)), 1); // draw the arrow on the screen pointing 
 				}
 			}
-			g.drawString("Score: " + score, (512 - metrics.stringWidth("Score: " + score)) / 2, 850); // show the score at the bottom
+			g.drawString("Score: " + score, 10, 50); // show the score at the top
 		}
 		if (needsReset == 1 || guessesLeft == 0) { // if the player wins or we run out of guesses 
 			currentCountry = countries.getRandomCountry(); // get a new country 
@@ -124,11 +124,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener { // make
 		g.setColor(Color.black);
 		g.setFont(new Font("Segoe UI", Font.PLAIN, 20));
 		FontMetrics metrics = g.getFontMetrics();
-		g.drawString(countries.getName(currentCountry).replaceAll("[a-zA-Z]", "_ ").trim(), (512 - metrics.stringWidth(countries.getName(currentCountry).replaceAll("[a-zA-Z]", "_ ").trim())) / 2, 128); // display the country name but with letters replaced with underscores, hyphens and special characters are left in to alert players to the fact that they are there; for example, the official english name of the ivory coast is the côte d'ivoire
+		g.drawString(countries.getName(currentCountry).replaceAll("[a-zA-Z]", "_ ").trim(), (512 - metrics.stringWidth(countries.getName(currentCountry).replaceAll("[a-zA-Z]", "_ ").trim())) / 2, 75); // display the country name but with letters replaced with underscores, hyphens and special characters are left in to alert players to the fact that they are there; for example, the official english name of the ivory coast is the côte d'ivoire
 
 		try { // draw the image of the current country
 			BufferedImage image = ImageIO.read(getClass().getResource("/img/" + currentCountry + ".png"));
-			g.drawImage(image, 128, 180, null);
+			g.drawImage(image, 128, 100, null);
 		} catch (Exception e) { // print out any errors for debugging
 			System.out.println(e);
 		}
@@ -194,7 +194,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener { // make
 	
 	public void paintComponent(Graphics g, double degree, double scaling) { // paints an image and rotates it
 		BufferedImage Arrow = LoadImage("src/arrow.png"); // loads the current image (an arrow)
-		AffineTransform at = AffineTransform.getTranslateInstance(200, 700); // change the position if needed
+		AffineTransform at = AffineTransform.getTranslateInstance(200, 600); // change the position if needed
 		at.rotate(Math.toRadians(degree), Arrow.getWidth() / 2, Arrow.getHeight() / 2); // rotate it for the number of degrees
 		at.scale(scaling, scaling); // scale it up or down
 
